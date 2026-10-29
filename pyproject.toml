@@ -1,0 +1,26 @@
+[project]
+name = "steer-neurons"
+version = "0.1.0"
+description = "Build llama.cpp control vectors that reproduce single-neuron steering"
+readme = "README.md"
+license = "Unlicense"
+license-files = ["LICENSE"]
+requires-python = ">=3.12"
+dependencies = [
+    "torch>=2.15.0",
+    "transformers>=5.22.0",
+    "accelerate>=1.15.0",
+    "gguf>=0.19.0",
+    "numpy>=2.5.4",
+    "huggingface-hub>=2.4.0",
+]
+
+# PyPI torch is CPU-only on Windows, so take CUDA wheels from the PyTorch index there.
+# Linux PyPI torch already ships with CUDA; macOS uses PyPI as usual.
+[tool.uv.sources]
+torch = [{ index = "pytorch-cu132", marker = "sys_platform == 'win32'" }]
+
+[[tool.uv.index]]
+name = "pytorch-cu132"
+url = "https://download.pytorch.org/whl/cu132"
+explicit = true
